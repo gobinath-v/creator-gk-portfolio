@@ -3,156 +3,486 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0a0c">
 <title>Creator GK | Websites & Android Apps for Local Businesses</title>
-<meta name="description" content="Creator GK builds fast business websites and offline Android apps. 50% upfront, 50% on handover. Chat on WhatsApp.">
+<meta name="description" content="Creator GK builds fast business websites, celebration pages and offline Android apps. 50% upfront, 50% on handover. Chat on WhatsApp.">
+<meta property="og:title" content="Creator GK | Websites & Android Apps">
+<meta property="og:description" content="Fast business websites, birthday and anniversary pages, and Android apps. Chat on WhatsApp.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root{--bg:#0a0a0c;--panel:#141419;--text:#f3f4f6;--muted:#9ca3af;--accent:#10b981;--accent2:#06b6d4}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;overflow-x:clip}
   h1,h2,h3,.brand{font-family:'Sora',system-ui,sans-serif}
+  section[id]{scroll-margin-top:110px}
+  .no-scrollbar{scrollbar-width:none}.no-scrollbar::-webkit-scrollbar{display:none}
+
   /* blueprint grid + cursor spotlight (the one signature effect) */
   .grid-bg{background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:44px 44px}
   .spot{position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px circle at var(--x,50%) var(--y,30%),rgba(16,185,129,.16),transparent 70%)}
+
+  /* glass cards. Add class "nolift" to a card to stop it moving on hover (used for big cards and the form) */
   .glass{background:rgba(20,20,25,.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);transition:border-color .2s,transform .2s}
   .glass:hover{border-color:rgba(16,185,129,.5);transform:translateY(-2px)}
+  .glass.nolift:hover{transform:none}
+  @media (hover:none){.glass:hover{transform:none}}
+
   .pulse{animation:pulse 1.8s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,.7)}70%{box-shadow:0 0 0 10px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
   .cursor{animation:blink 1s steps(2) infinite}@keyframes blink{50%{opacity:0}}
-  input,textarea{background:#0a0a0c;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px 14px;width:100%;color:var(--text)}
-  input:focus,textarea:focus,a:focus-visible,button:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
-  @media (prefers-reduced-motion:reduce){.pulse,.cursor{animation:none}html{scroll-behavior:auto}}
+
+  /* form fields: 16px text stops phones from zooming in, 48px height is easy to tap */
+  .field{background:#0a0a0c;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 14px;width:100%;min-height:48px;font-size:16px;color:var(--text);font-family:inherit}
+  .field::placeholder{color:#6b7280}
+  textarea.field{min-height:120px;resize:vertical}
+  .field:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(16,185,129,.2)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+  button:disabled{opacity:.6;cursor:not-allowed}
+
+  /* ===== ABOUT AVATAR: passport-size anime GK, interactive ===== */
+  .gk-wrap{padding-top:46px}
+  .gk-avatar{display:block;width:100%;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  /* THE FRAME. Circle by default. For a NO-CIRCLE passport photo change "border-radius:50%" to "border-radius:28px" */
+  .gk-frame{aspect-ratio:1;border-radius:50%;overflow:hidden;border:3px solid rgba(16,185,129,.6);box-shadow:0 0 0 7px rgba(16,185,129,.12),0 24px 50px -22px rgba(16,185,129,.55);background:radial-gradient(circle at 50% 30%,#22302f,#141419 72%)}
+  .gk-frame svg{display:block;width:100%;height:100%}
+  .gk-float{animation:gkFloat 4s ease-in-out infinite}
+  @keyframes gkFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .gk-lid{transform-box:fill-box;transform-origin:top;transform:scaleY(0);animation:gkBlink 4.5s infinite}
+  @keyframes gkBlink{0%,92%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
+  .gk-blush{opacity:0;transition:opacity .25s}
+  .gk-avatar:hover .gk-blush,.gk-avatar.happy .gk-blush{opacity:.55}
+  .gk-hop{animation:gkHop .5s ease}
+  @keyframes gkHop{0%{transform:translateY(0)}35%{transform:translateY(-14px)}70%{transform:translateY(0)}85%{transform:translateY(-4px)}100%{transform:translateY(0)}}
+  .gk-bubble{position:absolute;left:50%;top:42px;transform:translate(-50%,-100%) scale(.9);opacity:0;transition:opacity .25s,transform .25s;background:#f3f4f6;color:#0a0a0c;padding:8px 14px;border-radius:14px;font-size:14px;font-weight:600;white-space:nowrap;pointer-events:none;z-index:2;max-width:100vw}
+  .gk-bubble.show{opacity:1;transform:translate(-50%,-100%) scale(1)}
+  .gk-bubble::after{content:"";position:absolute;left:50%;bottom:-5px;width:12px;height:12px;background:#f3f4f6;transform:translateX(-50%) rotate(45deg)}
+
+
+  /* ===== PHONE FRAME for the portrait video and app screenshots =====
+     aspect-ratio 9/19 = a modern phone. Change 19 to 16 for older, shorter phones. */
+  .phone-frame{aspect-ratio:9/19;border-radius:26px;border:5px solid #26262e;background:#000;overflow:hidden;box-shadow:0 18px 40px -20px rgba(16,185,129,.35)}
+  .phone-frame video,.phone-frame img{display:block;width:100%;height:100%;object-fit:contain;background:#000}
+
+  @media (prefers-reduced-motion:reduce){.pulse,.cursor,.gk-float,.gk-lid,.gk-hop{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
 <!-- ============ NAV ============ -->
-<header class="sticky top-0 z-30 border-b border-white/10 bg-[#0a0a0c]/80 backdrop-blur">
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+<header class="sticky top-0 z-30 border-b border-white/10 bg-[#0a0a0c]/85 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3">
     <a href="#top" class="brand text-lg font-extrabold">Creator GK</a>
-    <nav class="hidden gap-6 text-sm text-[--muted] md:flex">
+    <nav class="hidden gap-6 text-sm text-gray-400 md:flex">
       <a href="#services" class="hover:text-white">Services</a>
+      <a href="#about" class="hover:text-white">About</a>
       <a href="#work" class="hover:text-white">Work</a>
       <a href="#pricing" class="hover:text-white">Pricing</a>
       <a href="#contact" class="hover:text-white">Contact</a>
     </nav>
     <a href="https://wa.me/918525018451?text=Hi%20Creator%20GK%2C%20I%20need%20a%20website%2Fapp" class="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-black">WhatsApp me</a>
   </div>
+  <!-- phone-only menu row (swipe sideways) -->
+  <nav class="border-t border-white/5 md:hidden">
+    <div class="no-scrollbar mx-auto flex max-w-6xl gap-6 overflow-x-auto whitespace-nowrap px-5 py-2 text-sm text-gray-400">
+      <a href="#services">Services</a><a href="#about">About</a><a href="#work">Work</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a>
+    </div>
+  </nav>
 </header>
 
 <!-- ============ HERO ============ -->
 <section id="top" class="grid-bg relative overflow-hidden">
   <div class="spot" id="spot"></div>
-  <div class="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 md:py-24 lg:grid-cols-2 lg:items-center">
+  <div class="relative mx-auto grid max-w-6xl gap-10 px-5 py-12 md:py-24 lg:grid-cols-2 lg:items-center">
     <div>
       <span class="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-300">
         <span class="pulse h-2 w-2 rounded-full bg-emerald-500"></span>Available for Client Projects
       </span>
-      <h1 class="mt-6 text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">Creator GK</h1>
-      <p class="mt-5 max-w-md text-lg text-[--muted]">I build business websites that bring in WhatsApp enquiries, and Android apps that work without internet.</p>
+      <h1 class="mt-6 text-[2.5rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">Creator GK</h1>
+      <p class="mt-5 max-w-md text-base text-gray-400 sm:text-lg">I build business websites that bring in WhatsApp enquiries, celebration pages, and Android apps that work without internet.</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#contact" class="rounded-lg bg-emerald-500 px-5 py-3 font-semibold text-black">Get a free quote</a>
         <a href="#work" class="rounded-lg border border-white/15 px-5 py-3 font-semibold">See my work</a>
       </div>
     </div>
 
-    <!-- Signature element: a live "deploy log" card -->
-    <div class="glass rounded-2xl p-5 text-sm" aria-hidden="true">
-      <div class="mb-3 flex gap-1.5"><i class="h-3 w-3 rounded-full bg-red-400/70"></i><i class="h-3 w-3 rounded-full bg-yellow-400/70"></i><i class="h-3 w-3 rounded-full bg-emerald-400/70"></i></div>
-      <pre class="overflow-x-auto font-mono leading-7 text-[--muted]"><span class="text-cyan-400">$</span> git push origin main
-<span class="text-cyan-400">$</span> building your site...
-<span class="text-emerald-400">✓</span> deployed in 30s
-<span class="text-emerald-400">✓</span> SSL on, mobile ready
-<span class="text-emerald-400">✓</span> WhatsApp button live<span class="cursor text-white">▌</span></pre>
+    <!-- STATUS CARD (the red / yellow / green window). Edit the lines inside the <p> tags. -->
+    <div class="glass nolift rounded-2xl p-5 text-[13px] sm:p-6 sm:text-sm">
+      <div class="mb-4 flex gap-1.5" aria-hidden="true"><i class="h-3 w-3 rounded-full bg-red-400/70"></i><i class="h-3 w-3 rounded-full bg-yellow-400/70"></i><i class="h-3 w-3 rounded-full bg-emerald-400/70"></i></div>
+      <div class="space-y-2 font-mono leading-6 break-words">
+        <p class="text-cyan-400 font-semibold">$ creator-gk --status</p>
+        <p class="text-zinc-400">&gt; Building high-speed websites &amp; Android apps</p>
+        <p class="text-emerald-400">✓ <span class="text-zinc-200">100% mobile-friendly on every phone</span></p>
+        <p class="text-emerald-400">✓ <span class="text-zinc-200">Direct WhatsApp lead routing enabled</span></p>
+        <p class="text-emerald-400">✓ <span class="text-zinc-200">Zero monthly maintenance headaches</span></p>
+        <p class="text-emerald-400">✓ <span class="text-zinc-200">Fast 5-day delivery turnaround</span><span class="cursor ml-1 text-white">▌</span></p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============ SERVICES ============ -->
-<section id="services" class="mx-auto max-w-6xl px-5 py-16">
+<section id="services" class="mx-auto max-w-6xl px-5 py-14 sm:py-16">
   <h2 class="text-3xl font-extrabold">What I build</h2>
-  <div class="mt-8 grid gap-5 md:grid-cols-2">
+  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <!-- SERVICE CARD: copy this whole <article> block to add another service -->
     <article class="glass rounded-2xl p-6">
       <h3 class="text-xl font-semibold">Business website</h3>
-      <p class="mt-2 text-[--muted]">3 to 5 pages, shows up on Google, works on every phone, with a button that opens WhatsApp chat with you.</p>
+      <p class="mt-2 text-gray-400">3 to 5 pages, shows up on Google, works on every phone, with a button that opens WhatsApp chat with you.</p>
       <ul class="mt-4 space-y-1 text-sm text-slate-300"><li>Fast loading</li><li>Search-friendly (SEO)</li><li>Quick delivery</li></ul>
     </article>
     <article class="glass rounded-2xl p-6">
       <h3 class="text-xl font-semibold">Android utility app</h3>
-      <p class="mt-2 text-[--muted]">Simple apps for data entry and daily workflows that keep working with no internet.</p>
+      <p class="mt-2 text-gray-400">Simple apps for data entry and daily workflows that keep working with no internet.</p>
       <ul class="mt-4 space-y-1 text-sm text-slate-300"><li>Offline storage</li><li>Tested on a real phone</li><li>Easy to use</li></ul>
     </article>
+    <article class="glass rounded-2xl p-6 sm:col-span-2 lg:col-span-1">
+      <h3 class="text-xl font-semibold">Celebration pages</h3>
+      <p class="mt-2 text-gray-400">Personal pages for birthdays, anniversaries and weddings that you can share on WhatsApp.</p>
+      <ul class="mt-4 space-y-1 text-sm text-slate-300"><li>Children's birthday wishes</li><li>Husband and wife anniversary</li><li>Wedding anniversary</li></ul>
+    </article>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<!-- Left: passport-size anime avatar (move the cursor or tap it). Right: your story. To change the story, edit only the text inside the <p> tags. -->
+<section id="about" class="mx-auto max-w-6xl px-5 py-14 sm:py-16">
+  <div class="glass nolift grid gap-8 rounded-2xl p-6 sm:p-10 lg:grid-cols-[300px_1fr] lg:items-center">
+
+    <!-- ===== AVATAR ===== -->
+    <div class="gk-wrap relative mx-auto w-full max-w-[250px]">
+      <div id="gkBubble" class="gk-bubble" role="status" aria-live="polite">Hi, I'm GK 👋</div>
+      <button id="gkAvatar" class="gk-avatar" type="button" aria-label="Tap to say hi to GK">
+        <div class="gk-frame">
+          <!-- viewBox "40 14 220 220" = passport crop (head and shoulders). For the FULL body use viewBox "0 0 300 380" and set .gk-frame aspect-ratio to 300/380 -->
+          <svg viewBox="40 14 220 220" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice">
+            <title>Cartoon of Creator GK</title>
+            <defs>
+              <clipPath id="eyeL"><ellipse cx="125" cy="114" rx="14" ry="12"/></clipPath>
+              <clipPath id="eyeR"><ellipse cx="175" cy="114" rx="14" ry="12"/></clipPath>
+            </defs>
+
+            <g class="gk-float">
+              <!-- pants -->
+              <path d="M84 296 L216 296 L220 378 L80 378 Z" fill="#15151a" stroke="rgba(255,255,255,.1)"/>
+              <path d="M150 318 L150 378" stroke="#0b0b0d" stroke-width="2"/>
+
+              <!-- sweatshirt body -->
+              <path d="M96 206 C110 196 130 190 150 190 C170 190 190 196 204 206 L222 232 L224 296 Q150 314 76 296 L78 232 Z" fill="#f3f4f6"/>
+              <path d="M176 214 Q196 230 200 262 L206 300 Q190 306 172 306 Z" fill="#e6e9ee"/>
+              <path d="M100 246 L98 296" stroke="#cfd3da" stroke-width="2" fill="none"/>
+              <path d="M200 246 L202 296" stroke="#cfd3da" stroke-width="2" fill="none"/>
+              <path d="M118 250 Q124 272 116 298" stroke="#d5d9e0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M76 296 Q150 314 224 296 L224 310 Q150 328 76 310 Z" fill="#dfe2e8"/>
+
+              <!-- sleeves (arms down, hands in pockets) -->
+              <path d="M98 208 C84 214 74 228 72 246 L68 292 Q80 300 93 294 L100 246 Z" fill="#eceef2" stroke="#cfd3da"/>
+              <path d="M202 208 C216 214 226 228 228 246 L232 292 Q220 300 207 294 L200 246 Z" fill="#eceef2" stroke="#cfd3da"/>
+              <path d="M67 288 Q80 300 94 292 L93 306 Q79 314 66 303 Z" fill="#dfe2e8" stroke="#cfd3da"/>
+              <path d="M233 288 Q220 300 206 292 L207 306 Q221 314 234 303 Z" fill="#dfe2e8" stroke="#cfd3da"/>
+
+              <!-- neck + chin shadow -->
+              <path d="M126 168 L126 198 Q150 212 174 198 L174 168 Z" fill="#a86a42"/>
+              <path d="M124 186 Q150 204 176 186 L176 198 Q150 214 124 198 Z" fill="#6e4125" opacity=".55"/>
+              <!-- collar ring -->
+              <path d="M114 190 Q150 224 186 190 L184 199 Q150 234 116 199 Z" fill="#e4e7ec" stroke="#cfd3da"/>
+
+              <!-- HEAD (tilts slightly toward the pointer) -->
+              <g id="gkHead">
+                <!-- ears -->
+                <ellipse cx="91" cy="128" rx="9" ry="14" fill="#a86a42"/>
+                <ellipse cx="209" cy="128" rx="9" ry="14" fill="#a86a42"/>
+                <ellipse cx="91" cy="129" rx="4" ry="8" fill="#8c5233" opacity=".6"/>
+                <ellipse cx="209" cy="129" rx="4" ry="8" fill="#8c5233" opacity=".6"/>
+                <!-- face -->
+                <path d="M92 112 C92 70 118 54 150 54 C182 54 208 70 208 112 L208 138 C208 170 182 192 150 192 C118 192 92 170 92 138 Z" fill="#b97a50"/>
+                <!-- soft shadow under the fringe -->
+                <path d="M106 90 C118 92 136 88 146 80 C160 88 182 92 196 86 L196 94 C182 100 160 96 146 88 C136 98 118 100 106 98 Z" fill="#7d4c2d" opacity=".4"/>
+                <!-- cheek light -->
+                <ellipse cx="108" cy="131" rx="8" ry="4" fill="#d79468" opacity=".35"/>
+                <ellipse cx="192" cy="131" rx="8" ry="4" fill="#d79468" opacity=".35"/>
+                <!-- nose -->
+                <path d="M144 146 Q150 150 156 146" stroke="#8c5233" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M150 126 Q147 140 149 145" stroke="#a66a42" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+                <!-- beard + mustache -->
+                <path d="M92 122 C92 160 112 194 150 196 C188 194 208 160 208 122 C200 134 194 146 182 152 C172 148 162 146 150 148 C138 146 128 148 118 152 C106 146 100 134 92 122 Z" fill="#1a1417"/>
+                <path d="M126 157 Q138 150 150 154 Q162 150 174 157 Q162 165 150 161 Q138 165 126 157 Z" fill="#1a1417"/>
+                <path d="M114 168 Q122 180 136 186" stroke="#3a2f33" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+                <path d="M186 168 Q178 180 164 186" stroke="#3a2f33" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+                <path d="M142 186 Q150 190 158 186" stroke="#3a2f33" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+                <!-- mouth (changes to a smile) -->
+                <path id="gkMouth" d="M140 171 Q150 174 160 171" stroke="#d9a58f" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+
+                <!-- left eye -->
+                <g clip-path="url(#eyeL)">
+                  <ellipse cx="125" cy="114" rx="14" ry="12" fill="#fff"/>
+                  <g id="irisL">
+                    <circle cx="125" cy="115" r="9" fill="#3a2118"/>
+                    <circle cx="125" cy="115" r="5" fill="#0b0b0d"/>
+                    <circle cx="121.5" cy="111.5" r="3" fill="#fff"/>
+                    <circle cx="128.5" cy="118.5" r="1.4" fill="#fff" opacity=".8"/>
+                  </g>
+                  <rect class="gk-lid" x="108" y="98" width="34" height="30" fill="#b97a50"/>
+                </g>
+                <path d="M109 110 Q125 98 141 110" stroke="#0b0b0d" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M110 110 L104 107" stroke="#0b0b0d" stroke-width="2.5" stroke-linecap="round"/>
+
+                <!-- right eye -->
+                <g clip-path="url(#eyeR)">
+                  <ellipse cx="175" cy="114" rx="14" ry="12" fill="#fff"/>
+                  <g id="irisR">
+                    <circle cx="175" cy="115" r="9" fill="#3a2118"/>
+                    <circle cx="175" cy="115" r="5" fill="#0b0b0d"/>
+                    <circle cx="171.5" cy="111.5" r="3" fill="#fff"/>
+                    <circle cx="178.5" cy="118.5" r="1.4" fill="#fff" opacity=".8"/>
+                  </g>
+                  <rect class="gk-lid" x="158" y="98" width="34" height="30" fill="#b97a50"/>
+                </g>
+                <path d="M159 110 Q175 98 191 110" stroke="#0b0b0d" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M190 110 L196 107" stroke="#0b0b0d" stroke-width="2.5" stroke-linecap="round"/>
+
+                <!-- brows (slightly serious, like the photo) -->
+                <path d="M106 96 Q124 89 143 99" stroke="#120d0f" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <path d="M157 99 Q176 89 194 96" stroke="#120d0f" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+                <!-- blush (appears when happy) -->
+                <ellipse class="gk-blush" cx="112" cy="140" rx="9" ry="5" fill="#ff8a8a"/>
+                <ellipse class="gk-blush" cx="188" cy="140" rx="9" ry="5" fill="#ff8a8a"/>
+
+                <!-- sideburns -->
+                <path d="M90 108 L100 112 L103 138 L92 126 Z" fill="#14100f"/>
+                <path d="M210 108 L200 112 L197 138 L208 126 Z" fill="#14100f"/>
+
+                <!-- wavy black hair (curl layer first, then the main shape) -->
+                <path d="M96 66 C92 52 104 40 118 42 C122 32 140 26 154 32 C164 24 186 28 194 42 C206 44 214 60 208 74 C204 60 196 52 186 52 C176 44 160 44 150 50 C140 44 124 46 116 54 C106 52 98 58 96 66 Z" fill="#14100f"/>
+                <path d="M88 112 C80 70 100 36 140 30 C160 24 192 30 206 56 C216 74 214 96 212 114 C208 100 204 90 196 82 C182 88 160 84 146 74 C136 86 118 90 106 88 C98 96 94 104 88 112 Z" fill="#14100f"/>
+                <path d="M108 52 Q124 38 142 46" stroke="#3a2f33" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M150 40 Q168 32 184 44" stroke="#3a2f33" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M192 58 Q204 66 204 82" stroke="#3a2f33" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M96 70 Q100 56 112 50" stroke="#3a2f33" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M122 60 Q140 50 160 56" stroke="#5a4a50" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </button>
+      <p class="mt-3 text-center text-xs text-gray-400">Move your cursor or tap me 👆</p>
+    </div>
+
+    <!-- ===== STORY ===== -->
+    <div>
+      <p class="text-sm text-cyan-400">About me</p>
+      <h2 class="mt-1 text-3xl font-extrabold">A hobby that became my first step</h2>
+      <div class="mt-5 max-w-3xl space-y-4 text-gray-400">
+        <p>Hi, I'm GK. I work in a Data Center network team during my day job, and in my free time I build small apps and websites because I enjoy it.</p>
+        <p>I make things like birthday wish pages for children, anniversary pages for husband and wife, wedding anniversary pages, and simple websites and apps for small startups. Every project teaches me something new, and that is why I keep creating.</p>
+        <p>I started this with the idea of keeping it free. Sometimes I invest my own time and money in hosting, domains and tools, so for bigger projects I ask for a fair price. I know I am still learning, but I give every project my full support.</p>
+        <p>I'm not selling a big business. This is my first step, and my joyful moment. If you like my work, message me on WhatsApp. Thanks for reading.</p>
+      </div>
+      <a href="https://wa.me/918525018451?text=Hi%20Creator%20GK%2C%20I%20liked%20your%20portfolio" class="mt-6 inline-block rounded-lg bg-emerald-500 px-5 py-3 font-semibold text-black">Chat on WhatsApp</a>
+    </div>
+
   </div>
 </section>
 
 <!-- ============ WORK ============ -->
-<section id="work" class="mx-auto max-w-6xl px-5 py-16">
+<section id="work" class="mx-auto max-w-6xl px-5 py-14 sm:py-16">
   <h2 class="text-3xl font-extrabold">Projects</h2>
-  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="projects">
-    <!-- PROJECT CARD: copy this block, change title/text/link. Delete if not needed. -->
-    <article class="glass rounded-2xl p-6">
+  <p class="mt-3 max-w-xl text-gray-400">A few things I have built. More coming as I keep learning.</p>
+
+  <!-- ===== FEATURED PROJECT: Oasis Water (Android app). Two columns on laptop: details on the left, video and images on the right ===== -->
+  <article class="glass nolift mt-8 rounded-2xl p-5 sm:p-8">
+    <div class="grid gap-8 lg:grid-cols-5 lg:items-center">
+
+      <!-- left column: details -->
+      <div class="lg:col-span-2">
+        <p class="text-sm text-cyan-400">Android app · Featured</p>
+        <h3 class="mt-1 text-2xl font-extrabold">Oasis Water</h3>
+        <p class="mt-3 text-gray-400">A hydration tracker for Android. Set a daily goal, add sips in one tap, and watch the heart fill up. Use Together mode to share the goal with someone you care about.</p>
+        <ul class="mt-4 space-y-1.5 text-sm text-slate-300">
+          <li>💧 Daily goal with a heart-shaped progress meter</li>
+          <li>⏱️ Hourly chart of how your day went</li>
+          <li>🤝 Together mode, linked with a code</li>
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <!-- APK file path: put oasis-water.apk inside the "images" folder next to index.html -->
+          <a href="images/oasis-water.apk" download class="rounded-lg bg-emerald-500 px-5 py-3 text-sm font-semibold text-black">Download APK</a>
+          <a href="#contact" class="rounded-lg border border-white/15 px-5 py-3 text-sm font-semibold">Want an app like this?</a>
+        </div>
+        <p class="mt-3 text-xs text-gray-500">After downloading, Android may ask you to allow installs from your browser. That is normal for apps outside the Play Store.</p>
+      </div>
+
+      <!-- right column: your PORTRAIT screen recording + TWO app screenshots, all in the same phone-shaped frame.
+           Phone: the video is centered and big, the two images sit side by side under it.
+           Laptop: video and both images sit in one row of three. -->
+      <div class="lg:col-span-3">
+        <div class="grid grid-cols-2 items-start gap-3 sm:gap-5 lg:grid-cols-3">
+
+          <!-- VIDEO (portrait). File: images/oasis-demo.mp4 -->
+          <figure class="col-span-2 mx-auto w-full max-w-[260px] lg:col-span-1 lg:max-w-none">
+<div class="phone-frame">
+  <video 
+    autoplay 
+    muted 
+    loop 
+    playsinline 
+    preload="auto" 
+    class="w-full h-full object-cover" 
+    aria-label="Oasis Water screen recording">
+    <source src="images/oasis-demo.mp4" type="video/mp4">
+    Your browser does not support HTML video.
+  </video>
+</div>
+            <figcaption class="mt-2 text-center text-xs text-gray-400">Screen recording</figcaption>
+          </figure>
+
+          <!-- IMAGE 1. File: images/hydration-app (.png / .jpg / .jpeg / .webp, the page finds the type itself) -->
+          <figure>
+            <div class="phone-frame">
+              <img data-base="images/hydration-app" alt="Oasis Water hydration tracker screen" loading="lazy">
+            </div>
+            <figcaption class="mt-2 text-center text-xs text-gray-400">Hydration tracker</figcaption>
+          </figure>
+
+          <!-- IMAGE 2. File: images/together-feature -->
+          <figure>
+            <div class="phone-frame">
+              <img data-base="images/together-feature" alt="Oasis Water Together feature screen" loading="lazy">
+            </div>
+            <figcaption class="mt-2 text-center text-xs text-gray-400">Together feature</figcaption>
+          </figure>
+
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- ===== MORE PROJECTS: 1 column on phone, 2 on tablet, 3 on desktop. Copy one <article> to add another. ===== -->
+  <div class="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+    <!-- MRG website: shows only when you paste its link in MRG_URL (bottom of this file) -->
+    <article id="mrgCard" class="glass rounded-2xl p-6">
       <p class="text-sm text-cyan-400">Website</p>
-      <h3 class="mt-1 text-lg font-semibold">Your project goes here</h3>
-      <p class="mt-2 text-sm text-[--muted]">Replace with a short result, like "Got 12 enquiries in the first month".</p>
-      <a href="#contact" class="mt-4 inline-block text-sm text-emerald-400">Start yours</a>
+      <h3 class="mt-1 text-lg font-semibold">MRG Website</h3>
+      <p class="mt-2 text-sm text-gray-400">A fast, mobile-friendly business website with a WhatsApp enquiry button.</p>
+      <a id="mrgLink" href="#" target="_blank" rel="noopener" class="mt-4 inline-block rounded-lg border border-emerald-500/50 px-4 py-2 text-sm text-emerald-400">Visit website →</a>
     </article>
-    <article class="glass rounded-2xl p-6">
-      <p class="text-sm text-cyan-400">Android app</p>
-      <h3 class="mt-1 text-lg font-semibold">Offline stock tracker (sample)</h3>
-      <p class="mt-2 text-sm text-[--muted]">Add items and counts without signal, sync to a sheet later.</p>
+
+    <!-- Your next project card -->
+    <article class="glass rounded-2xl border-dashed p-6">
+      <p class="text-sm text-cyan-400">Your project</p>
+      <h3 class="mt-1 text-lg font-semibold">Your idea could be next</h3>
+      <p class="mt-2 text-sm text-gray-400">A shop website, a birthday page, an anniversary surprise or a small app. Tell me what you need.</p>
+      <a href="#contact" class="mt-4 inline-block text-sm text-emerald-400">Start yours →</a>
     </article>
+
   </div>
 </section>
 
 <!-- ============ PRICING ============ -->
-<section id="pricing" class="mx-auto max-w-6xl px-5 py-16">
-  <h2 class="text-3xl font-extrabold">How payment works</h2>
-  <p class="mt-3 max-w-xl text-[--muted]">Pay 50% to start, 50% when I hand over the finished work. Final price depends on your project.</p>
-  <div class="mt-8 grid gap-5 md:grid-cols-2">
-    <!-- PRICING TIER: edit the text and price below -->
+<section id="pricing" class="mx-auto max-w-6xl px-5 py-14 sm:py-16">
+  <h2 class="text-3xl font-extrabold">Fair prices, simple payment</h2>
+  <p class="mt-3 max-w-xl text-gray-400">Pay 50% to start and 50% when I hand over the finished work. These are starting prices. The final price depends on your project, and I will always tell you before I begin.</p>
+
+  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- PRICING TIER: change the price or text, or copy a whole <article> to add a tier -->
     <article class="glass rounded-2xl p-6">
-      <h3 class="text-xl font-semibold">Landing site</h3>
-      <p class="mt-2 text-3xl font-extrabold text-emerald-400">From ₹ XXXX</p>
-      <p class="mt-2 text-sm text-[--muted]">3 to 5 pages, SEO basics, WhatsApp button, mobile ready.</p>
+      <h3 class="text-xl font-semibold">Celebration page</h3>
+      <p class="mt-2 text-3xl font-extrabold text-emerald-400">From ₹799</p>
+      <p class="mt-2 text-sm text-gray-400">Birthday, anniversary or wedding wishes page you can share on WhatsApp. Usually ready in a few days.</p>
     </article>
     <article class="glass rounded-2xl p-6">
+      <h3 class="text-xl font-semibold">Business website</h3>
+      <p class="mt-2 text-3xl font-extrabold text-emerald-400">From ₹6,999</p>
+      <p class="mt-2 text-sm text-gray-400">3 to 5 pages, SEO basics, WhatsApp button, mobile ready. Delivered in about 5 days.</p>
+    </article>
+    <article class="glass rounded-2xl p-6 sm:col-span-2 lg:col-span-1">
       <h3 class="text-xl font-semibold">Android utility app</h3>
-      <p class="mt-2 text-3xl font-extrabold text-cyan-400">From ₹ XXXX</p>
-      <p class="mt-2 text-sm text-[--muted]">Offline-ready app built around your workflow.</p>
+      <p class="mt-2 text-3xl font-extrabold text-cyan-400">From ₹9,999</p>
+      <p class="mt-2 text-sm text-gray-400">Simple app built around your workflow and tested on a real phone.</p>
     </article>
   </div>
+  <p class="mt-5 text-sm text-gray-400">Not sure what you need? <a href="#contact" class="text-emerald-400 underline">Tell me your idea</a> and I will send a clear quote.</p>
 </section>
 
 <!-- ============ CONTACT ============ -->
-<section id="contact" class="mx-auto max-w-3xl px-5 py-16">
-  <h2 class="text-3xl font-extrabold">Tell me about your project</h2>
-  <p class="mt-3 text-[--muted]">I reply on WhatsApp. Prefer to chat now? <a class="text-emerald-400 underline" href="https://wa.me/918525018451">+91 85250 18451</a></p>
+<section id="contact" class="mx-auto max-w-5xl px-5 py-14 sm:py-16">
+  <div class="grid gap-8 lg:grid-cols-5 lg:gap-12">
 
-  <form id="leadForm" class="glass mt-8 space-y-4 rounded-2xl p-6" novalidate>
-    <label class="block text-sm">Your name<input name="name" required autocomplete="name"></label>
-    <label class="block text-sm">Email<input name="email" type="email" required autocomplete="email"></label>
-    <label class="block text-sm">Phone / WhatsApp<input name="phone" type="tel" required autocomplete="tel"></label>
-    <label class="block text-sm">Project details<textarea name="details" rows="4" required></textarea></label>
-    <p id="err" class="hidden text-sm text-red-400">Please fill every field with valid details.</p>
-    <button class="w-full rounded-lg bg-emerald-500 px-5 py-3 font-semibold text-black" id="sendBtn">Send my request</button>
-  </form>
+    <!-- left: short intro -->
+    <div class="lg:col-span-2">
+      <h2 class="text-3xl font-extrabold">Tell me about your project</h2>
+      <p class="mt-3 text-gray-400">Send the form and I will reply personally on WhatsApp. In a hurry? Message me directly.</p>
+      <a href="https://wa.me/918525018451?text=Hi%20Creator%20GK%2C%20I%20need%20a%20website%2Fapp" class="mt-5 inline-flex items-center gap-2 rounded-lg border border-emerald-500/50 px-4 py-3 text-sm font-semibold text-emerald-400">💬 +91 85250 18451</a>
+      <ol class="mt-8 space-y-3 text-sm text-gray-400">
+        <li><span class="mr-2 font-semibold text-emerald-400">1</span>Send your idea</li>
+        <li><span class="mr-2 font-semibold text-emerald-400">2</span>I reply on WhatsApp with a clear quote</li>
+        <li><span class="mr-2 font-semibold text-emerald-400">3</span>50% to start, 50% when I hand over</li>
+      </ol>
+    </div>
 
-  <div id="thanks" class="glass hidden rounded-2xl p-8 text-center">
-    <h3 class="text-2xl font-extrabold">Thank you, <span id="thanksName" class="text-emerald-400"></span>.</h3>
-    <p class="mt-3 text-[--muted]">I have received your details and will contact you personally on WhatsApp soon.</p>
-    <p class="mt-4 font-semibold">Creator GK</p>
+    <!-- right: form + thank-you card -->
+    <div class="lg:col-span-3">
+      <form id="leadForm" class="glass nolift grid gap-4 rounded-2xl p-5 sm:p-7" novalidate>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="grid gap-1.5 text-sm font-medium">Your name
+            <input class="field" name="name" required autocomplete="name" placeholder="Your name">
+          </label>
+          <label class="grid gap-1.5 text-sm font-medium">Phone / WhatsApp
+            <input class="field" name="phone" type="tel" inputmode="tel" required autocomplete="tel" placeholder="+91 ...">
+          </label>
+        </div>
+        <label class="grid gap-1.5 text-sm font-medium">Email
+          <input class="field" name="email" type="email" inputmode="email" required autocomplete="email" placeholder="you@example.com">
+        </label>
+        <label class="grid gap-1.5 text-sm font-medium">Project details
+          <textarea class="field" name="details" rows="4" required placeholder="Example: I need a birthday page for my son, or a website for my shop."></textarea>
+        </label>
+        <p id="err" class="hidden rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300">Please fill every field with valid details.</p>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <button class="w-full rounded-lg bg-emerald-500 px-5 py-3 font-semibold text-black" id="sendBtn">Send my request</button>
+          <button type="button" class="w-full rounded-lg border border-white/15 px-5 py-3 font-semibold" id="waBtn">Send on WhatsApp</button>
+        </div>
+      </form>
+
+      <div id="thanks" class="glass nolift hidden rounded-2xl p-6 text-center sm:p-8">
+        <h3 class="text-2xl font-extrabold">Thank you, <span id="thanksName" class="break-words text-emerald-400"></span>.</h3>
+        <p class="mt-3 text-gray-400">I have received your details and will contact you personally on WhatsApp soon.</p>
+        <p class="mt-4 font-semibold">Creator GK</p>
+        <a href="https://wa.me/918525018451" class="mt-5 inline-block rounded-lg border border-emerald-500/50 px-4 py-2 text-sm text-emerald-400">Or message me now</a>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<footer class="border-t border-white/10 px-5 py-8 text-center text-sm text-[--muted]">© <span id="yr"></span> Creator GK</footer>
+<footer class="border-t border-white/10 px-5 py-8 pb-24 text-center text-sm text-gray-400">© <span id="yr"></span> Creator GK · Websites, celebration pages &amp; Android apps</footer>
+
+<!-- floating WhatsApp button (always one tap away on phones) -->
+<a href="https://wa.me/918525018451?text=Hi%20Creator%20GK%2C%20I%20need%20a%20website%2Fapp" aria-label="Chat with Creator GK on WhatsApp"
+   class="pulse fixed bottom-4 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-black shadow-lg">
+  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+</a>
 
 <script>
-/* ===== SETTINGS: paste your Apps Script Web App URL here (Step 4 of the guide) ===== */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNRuj-oMFHEqg36g_O-SnykMqzMa8Ry_Bs7l4BfqDDqg2drtL0EpAaBQoBgpNPU_jd/exec";
+/* ===== SETTINGS: change these three lines when needed ===== */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNRuj-oMFHEqg36g_O-SnykMqzMa8Ry_Bs7l4BfqDDqg2drtL0EpAaBQoBgpNPU_jd/exec";   // your Google Apps Script Web App link (ends with /exec)
+const WHATSAPP   = "918525018451";                        // country code + number, no plus sign
+const MRG_URL    = "";                                    // paste your MRG website link between the quotes (leave empty to hide that card)
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Show the MRG card only when its link is set
+(function () {
+  const card = document.getElementById('mrgCard');
+  if (!card) return;
+  if (MRG_URL) document.getElementById('mrgLink').href = MRG_URL; else card.remove();
+})();
 
 // Cursor spotlight in hero
 const hero = document.getElementById('top'), spot = document.getElementById('spot');
@@ -161,7 +491,6 @@ hero.addEventListener('pointermove', e => {
   spot.style.setProperty('--x', (e.clientX - r.left) + 'px');
   spot.style.setProperty('--y', (e.clientY - r.top) + 'px');
 });
-document.getElementById('yr').textContent = new Date().getFullYear();
 
 // Lead form: send JSON to Google Sheet, then swap in the greeting card (no reload)
 const form = document.getElementById('leadForm');
@@ -176,11 +505,124 @@ form.addEventListener('submit', async e => {
   btn.disabled = true; btn.textContent = 'Sending...';
   try {
     await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
-  } catch (err) { /* network issue: still show card; check the sheet while testing */ }
+  } catch (err) { /* network issue: still show the card; check the sheet while testing */ }
   document.getElementById('thanksName').textContent = data.name;
   form.classList.add('hidden');
   document.getElementById('thanks').classList.remove('hidden');
 });
+
+// "Send on WhatsApp" button: opens WhatsApp with a ready message made from what was typed
+document.getElementById('waBtn').addEventListener('click', () => {
+  const f = new FormData(form);
+  const name = (f.get('name') || '').trim(), details = (f.get('details') || '').trim();
+  let msg = "Hi Creator GK, I need a website/app.";
+  if (name) msg += "\nName: " + name;
+  if (details) msg += "\nProject: " + details;
+  window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+});
+
+// If the demo video cannot load or play, show a small message with a link instead of a black box
+document.querySelectorAll('video').forEach(v => {
+  const fail = () => {
+    v.style.display = 'none';
+    const msg = v.parentElement.querySelector('.video-fail');
+    if (msg) msg.classList.remove('hidden');
+  };
+  v.addEventListener('error', fail);
+  const src = v.querySelector('source');
+  if (src) src.addEventListener('error', fail);
+});
+
+// App demo videos play quietly when scrolled into view and pause when you scroll away
+(function () {
+  const vids = document.querySelectorAll('video[data-autoplay]');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const vo = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.play().catch(() => {}); } else { en.target.pause(); }
+    });
+  }, { threshold: 0.6 });
+  vids.forEach(v => vo.observe(v));
+})();
+
+// App images: finds the right file type by itself (.png, .jpg, .jpeg or .webp). If no file is found, that picture is hidden.
+(function () {
+  const exts = ['.png', '.jpg', '.jpeg', '.webp'];
+  document.querySelectorAll('img[data-base]').forEach(img => {
+    let i = 0;
+    img.onerror = () => {
+      i++;
+      if (i < exts.length) { img.src = img.dataset.base + exts[i]; }
+      else { const fig = img.closest('figure'); if (fig) fig.style.display = 'none'; }
+    };
+    img.src = img.dataset.base + exts[0];
+  });
+})();
+
+/* ===== Interactive avatar: eyes follow the pointer, blinks, smiles and talks when tapped ===== */
+(function () {
+  const btn = document.getElementById('gkAvatar');
+  if (!btn) return;
+  const svg = btn.querySelector('svg');
+  const bubble = document.getElementById('gkBubble');
+  const mouth = document.getElementById('gkMouth');
+  const head = document.getElementById('gkHead');
+  const irises = [document.getElementById('irisL'), document.getElementById('irisR')];
+
+  /* EDIT THESE: the lines the avatar says each time it is tapped */
+  const SAY = [
+    "Hi, I'm GK 👋",
+    "I build websites and apps",
+    "Need a birthday page? 🎂",
+    "Anniversary or wedding page? 💍",
+    "Message me on WhatsApp!",
+    "Thanks for visiting 🙏"
+  ];
+  let n = 0, hideT, calmT;
+
+  function look(x, y) {
+    const r = svg.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.top + r.height * 0.45;   // eyes sit about 45% down the passport crop
+    let dx = x - cx, dy = y - cy;
+    const d = Math.hypot(dx, dy) || 1;
+    const k = Math.min(d, 220) / 220;
+    dx = dx / d * 4.5 * k; dy = dy / d * 3.5 * k;
+    irises.forEach(el => el.setAttribute('transform', 'translate(' + dx.toFixed(2) + ' ' + dy.toFixed(2) + ')'));
+    head.setAttribute('transform', 'rotate(' + (dx * 0.5).toFixed(2) + ' 150 190)');
+  }
+  window.addEventListener('pointermove', e => look(e.clientX, e.clientY));
+
+  function say(msg) {
+    bubble.textContent = msg;
+    bubble.classList.add('show');
+    clearTimeout(hideT);
+    hideT = setTimeout(() => bubble.classList.remove('show'), 2800);
+  }
+  function happy() {
+    mouth.setAttribute('d', 'M138 168 Q150 181 162 168');
+    btn.classList.add('happy');
+    clearTimeout(calmT);
+    calmT = setTimeout(() => {
+      mouth.setAttribute('d', 'M140 171 Q150 174 160 171');
+      btn.classList.remove('happy');
+    }, 1800);
+  }
+  function hop() {
+    btn.classList.remove('gk-hop'); void btn.getBoundingClientRect();
+    btn.classList.add('gk-hop');
+  }
+
+  btn.addEventListener('click', () => { say(SAY[n++ % SAY.length]); happy(); hop(); });
+  btn.addEventListener('pointerenter', happy);
+
+  /* greet once when the About section scrolls into view */
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => {
+      if (es[0].isIntersecting) { say(SAY[0]); happy(); io.disconnect(); }
+    }, { threshold: 0.5 });
+    io.observe(btn);
+  }
+})();
 </script>
 </body>
 </html>
